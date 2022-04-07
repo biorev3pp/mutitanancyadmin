@@ -1,6 +1,8 @@
 <script setup>
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
+import SidebarVue from '@/Layouts/elements/Sidebar.vue';
 import { Head } from '@inertiajs/inertia-vue3';
+
 </script>
 
 <template>
@@ -21,4 +23,5 @@ import { Head } from '@inertiajs/inertia-vue3';
             </div>
         </div>
     </BreezeAuthenticatedLayout>
+    
 </template>

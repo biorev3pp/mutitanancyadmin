@@ -46,7 +46,7 @@ section.main-content{
             <BiorevMenu :showNavigation="showNavigation" />
             
             <!-- Page Content -->
-            <main class="p-3 md:ml-64">
+            <main class="p-3 md:ml-64 overflow-hidden">
                 <header v-if="$slots.header">
                     <div class="pb-3">
                         <h2 class="font-normal text-xl text-gray-800 leading-tight">
