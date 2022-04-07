@@ -3,10 +3,12 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Redirect;
-use Inertia\Inertia;
 use App\Http\Controllers\DomainsController;
 use App\Http\Controllers\SetupController;
 use App\Http\Controllers\ClientsController;
+use App\Http\Controllers\DatabaseController;
+use Inertia\Inertia;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,5 +34,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/clients', [ClientsController::class, 'index'])->name('clients');
 
     Route::get('/domains', [DomainsController::class, 'index'])->name('domains');
+    Route::get(
+        '/users',
+        function () {
+            return Inertia::render(
+                'Users', ['title' => 'Users',]
+            );
+        }
+    )->name( 'users' );
+    Route::get('/database', [DatabaseController::class, 'index'])->name( 'database' );
 });
 require __DIR__.'/auth.php';
