@@ -7,4 +7,6 @@
 *.php diff=php
 
 /.github export-ignore
+/public/css/app.css
+/public/js/app.js
 CHANGELOG.md export-ignore

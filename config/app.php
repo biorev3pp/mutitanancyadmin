@@ -56,6 +56,10 @@ return [
 
     'asset_url' => env('ASSET_URL', null),
 
+    'cpanel_host' => env('CPANEL_HOST', null),
+    'cpanel_user' => env('CPANEL_USER', null),
+    'cpanel_key' => env('CPANEL_KEY', null),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

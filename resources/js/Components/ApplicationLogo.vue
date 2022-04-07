@@ -1,3 +1,3 @@
 <template>
-	<img src="/images/logo.png" alt="Biorev" />
+	<img src="/images/logo-white.png" class="w-44" alt="Biorev" />
 </template>
