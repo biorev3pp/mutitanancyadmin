@@ -126,8 +126,8 @@
                             {{ client.remarks }}
                         </td>
                         <td class="px-6 py-4">
-                            <span class="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-3 py-1 rounded dark:bg-green-200 border dark:text-green-900 border-green-300" v-if="client.status == 1">Active</span>
-                            <span class="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-3 py-1 rounded dark:bg-red-200 dark:text-red-900 border border-red-300" v-else>Deactive</span>
+                            <button class="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-3 py-1 rounded dark:bg-green-200 border dark:text-green-900 border-green-300" v-if="client.status == 1">Active</button>
+                            <button class="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-3 py-1 rounded dark:bg-red-200 dark:text-red-900 border border-red-300" v-else>Deactive</button>
                             
                         </td>
                         <td class="px-6 py-4 text-right">
