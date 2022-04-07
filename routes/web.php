@@ -7,6 +7,7 @@ use App\Http\Controllers\DomainsController;
 use App\Http\Controllers\SetupController;
 use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\DatabaseController;
+use App\Http\Controllers\ProjectsController;
 use Inertia\Inertia;
 
 /*
@@ -34,6 +35,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/clients', [ClientsController::class, 'index'])->name('clients');
 
     Route::get('/domains', [DomainsController::class, 'index'])->name('domains');
+    Route::get('/projects', [ProjectsController::class, 'index'])->name('domains');
     Route::get(
         '/users',
         function () {

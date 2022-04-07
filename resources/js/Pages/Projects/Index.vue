@@ -14,21 +14,21 @@
             }
         },
         computed: {
-            filteredClients() {
+            filteredProjects() {
                 let sh = this.search;
                 if(sh) {
-                    return this.clients.filter((ele) => {
+                    return this.projects.filter((ele) => {
                         return (ele.name.includes(sh) || ele.client_code.includes(sh) || ele.email.includes(sh))
                     })
                 } else {
-                    return this.clients
+                    return this.projects
                 }
             }
         },
         setup() {
-            const clients = computed(() => usePage().props.value.clients);
+            const projects = computed(() => usePage().props.value.projects);
             return {
-                clients
+                projects
             }
         },
         methods: {
@@ -42,11 +42,11 @@
 </script>
 
 <template>
-    <Head title="Clients | Biorev Superadmin" />
+    <Head title="Projects | Biorev Superadmin" />
 
     <BreezeAuthenticatedLayout>
         <template #header>
-            Clients
+            Projects
         </template>
         <div class="relative overflow-x-auto shadow-md bg-white sm:rounded-lg">
             <div class="p-4">
@@ -64,7 +64,7 @@
 
                 </div>
             </div>
-            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <!-- <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-y border-gray-200">
                     <tr>
                         <th scope="col" class="p-4">
@@ -94,7 +94,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" v-for="client in filteredClients" :key="client.id">
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" v-for="client in filteredProjects" :key="client.id">
                         <td class="w-4 p-4">
                             <div class="flex items-center">
                                 <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
@@ -135,7 +135,7 @@
                         </td>
                     </tr>
                 </tbody>
-            </table>
+            </table> -->
         </div>
 
     </BreezeAuthenticatedLayout>
