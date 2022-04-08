@@ -1,7 +1,5 @@
 <script>
     import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
-    import { usePage } from '@inertiajs/inertia-vue3';
-    import { computed } from '@vue/runtime-core';
     import ClientSidebar from './ClientSidebar.vue';
     const { base64encode, base64decode } = require('nodejs-base64');
     
@@ -15,7 +13,8 @@
                 search:'',
                 sidebar : true,
                 editmode: false,
-                active_client:{}
+                clients:this.$page.props.clients,
+                active_client:{},
             }
         },
         computed: {
@@ -30,12 +29,6 @@
                 }
             }
         },
-        setup() {
-            const clients = computed(() => usePage().props.value.clients);
-            return {
-                clients
-            }
-        },
         methods: {
             avtarText(val) {
                 let sp = val.split(' ');
@@ -47,6 +40,7 @@
             },
             changeSidebar() {
                 this.sidebar = !this.sidebar
+                this.editmode = false
             }
         }
     };
@@ -68,7 +62,7 @@
                         </div>
                         <input type="text" v-model="search" id="search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for client">
                     </div>
-                   <button type="button" class="transition duration-500 inline-flex items-center  focus:outline-none text-white bg-zinc-600 hover:bg-zinc-800 focus:ring-4 focus:ring-zinc-300 font-medium rounded-sm text-sm px-3 py-2 dark:bg-zinc-600 dark:hover:bg-zinc-700 dark:focus:ring-zinc-900" @click="sidebar = !sidebar">
+                   <button type="button" :class="$buttonClasses.addBtn" @click="sidebar = !sidebar">
                        <BiorevIcon icon="plus" className="w-5 h-5 mr-1 ml-1 text-white" />
                        <span>Add New Client</span>
                     </button>
@@ -146,7 +140,7 @@
                             
                         </td>
                         <td class="px-6 py-4 text-right">
-                            <button type="button" class="transition duration-500 inline-flex items-center focus:outline-none text-dark bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-sm text-sm px-3 py-2 dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-900" @click="sidebar = !sidebar; editmode = true; active_client = client;">
+                            <button type="button" :class="$buttonClasses.tableEditBtn" @click="sidebar = !sidebar; editmode = true; active_client = client;">
                                 <BiorevIcon icon="pencil-alt" className="w-4 h-4 mr-1 ml-1 text-dark" />
                                 <span>Edit</span>
                             </button>
