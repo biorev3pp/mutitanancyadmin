@@ -24,13 +24,11 @@ class DomainsController extends Controller
     public function index(Request $request)
     {
         $cpanel = new cPanelController(env('cpanel_user'), env('cpanel_key'), env('cpanel_host'));
-        $domains = $cpanel->execute('api2', 'DomainLookup', 'getdocroots');
-        // dd($domains);
+        $domains = $cpanel->execute('api2', 'SubDomain', 'listsubdomains', ['return_https_redirect_status'=>1]);
         return Inertia::render('Domains/Index', [
             'domains' => $domains,
             'menu' => 'domains'
         ]);
 
     }
-
 }

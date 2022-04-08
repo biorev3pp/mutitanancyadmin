@@ -2,18 +2,18 @@
     import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
     import { Head, Link, usePage } from '@inertiajs/inertia-vue3';
     import { computed } from '@vue/runtime-core';
-    import SidebarVue from '@/Layouts/elements/Sidebar.vue';
-
+    import ProjectsSidebar from './ProjectsSidebar.vue';
+    
     export default {
         components: {
             BreezeAuthenticatedLayout,
             Head,
-            SidebarVue,
+            ProjectsSidebar,
         },
         data() {
             return {
                 search:'',
-                sidebar : false,
+                sidebar : true,
             }
         },
         computed: {
@@ -39,6 +39,9 @@
                 let sp = val.split(' ');
                 sp = sp.map(i => i.charAt(0))
                 return sp.join('').substr(0,2).toUpperCase()
+            },
+            changeSidebar() {
+                this.sidebar != this.sidebar
             }
         }
     };
@@ -135,6 +138,6 @@
                 </tbody>
             </table>
         </div>
-        <SidebarVue :hideSidebar="true" />
+        <ProjectsSidebar @change-sidebar-status="changeSidebar()" :hide-sidebar="sidebar" />
     </BreezeAuthenticatedLayout>
 </template>
