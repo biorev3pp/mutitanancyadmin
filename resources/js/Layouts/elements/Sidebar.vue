@@ -14,7 +14,7 @@
                 <svg class="w-5 h-5 mx-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                 <span>Add New Client</span>
             </button>
-            <button type="button" class="transition duration-500 inline-flex items-center  focus:outline-none text-red-500 border border-red-500 hover:bg-red-500 hover:text-white focus:ring-4 focus:ring-red-300 font-medium rounded-sm text-sm px-3 py-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
+            <button type="button" class="transition duration-500 inline-flex items-center  focus:outline-none text-red-500 border border-red-500 hover:bg-red-500 hover:text-white focus:ring-4 focus:ring-red-300 font-medium rounded-sm text-sm px-3 py-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" @click="hideSideBar = true">
                 <svg class="w-4 h-4 mx-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 <span>Cancel</span>
             </button>
@@ -32,10 +32,10 @@ export default {
         hideSidebar:[Boolean]
     },
     setup () {
-        
+        // console.log(hideSidebar)
 
         return {}
-    }
+    },
 }
 </script>
 

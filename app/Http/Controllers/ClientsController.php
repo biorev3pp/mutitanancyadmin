@@ -15,7 +15,8 @@ class ClientsController extends Controller
         
     }
     public function index(){
-        $clients = Clients::orderBy('id', 'desc')->get();
+        $clients = Clients::orderBy('clients.id', 'desc')->withCount('project')->get();
+        // dd($clients);
         return Inertia::render('Clients/Index', [
             'clients' => $clients,
             'menu' => 'clients'

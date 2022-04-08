@@ -57,7 +57,6 @@
                     <span class="flex-1 ml-3 whitespace-nowrap">Server </span>
                 </a>
             </li>
-
             </ul>
         </div>
     </aside>

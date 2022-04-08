@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
 use App\Models\Projects;
+use App\Models\Clients;
 use Inertia\Inertia;
 
 class ProjectsController extends Controller
@@ -21,14 +22,20 @@ class ProjectsController extends Controller
      */
     public function index()
     {
-        $projects = Projects::orderBy('subdomain', 'desc')->get();
+        $projects = Projects::orderBy('subdomain', 'desc')->with('client', 'user')->get();
         // dd($projects);
         return Inertia::render('Projects/Index', [
             'projects' => $projects,
             'menu' => 'projects'
         ]);
     }
-
+    public function clientProject($client_code = null){
+        $client_code = base64_decode($client_code);
+        $client = Clients::where('client_code', '=', $client_code)->first();
+        $projects = Projects::where('client_id', $client->id)->with('client', 'user')->orderBy('subdomain', 'desc')->get();  // dd($projects);
+        return Inertia::render('Clients/Projects', ['projects' => $projects, 'menu' => 'clients']);
+        
+    }
     /**
      * Show the form for creating a new resource.
      *

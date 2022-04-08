@@ -2,11 +2,13 @@
     import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
     import { Head, Link, usePage } from '@inertiajs/inertia-vue3';
     import { computed } from '@vue/runtime-core';
-    
+    import SidebarVue from '@/Layouts/elements/Sidebar.vue';
+    const { base64encode, base64decode } = require('nodejs-base64');
     export default {
         components: {
             BreezeAuthenticatedLayout,
-            Head
+            Head,
+            SidebarVue,
         },
         data() {
             return {
@@ -26,6 +28,8 @@
             }
         },
         setup() {
+            
+
             const clients = computed(() => usePage().props.value.clients);
             return {
                 clients
@@ -36,6 +40,9 @@
                 let sp = val.split(' ');
                 sp = sp.map(i => i.charAt(0))
                 return sp.join('').substr(0,2).toUpperCase()
+            },
+            jstobase64(str){                
+                return base64encode(str)
             }
         }
     };
@@ -109,7 +116,7 @@
                                     </span>
                                 </div>
                                 <div class="flex-1 min-w-0">
-                                    <h6 class=" text-gray-900">{{ client.name }}</h6>
+                                    <h6 class=" text-gray-900"><Link :href="route('client-projects',  jstobase64(client.client_code))">{{ client.name }}</Link></h6>
                                     <p class="text-sm text-gray-500 truncate dark:text-gray-400 tracking-wide">
                                         CLIENT CODE: <span class="text-indigo-700">{{ client.client_code }}</span> 
                                     </p>
@@ -120,7 +127,11 @@
                             {{ client.email }}
                         </td>
                         <td class="px-6 py-4">
-                            0
+                            <span class="inline-block py-1 px-1.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-green-600 text-white rounded ml-2">
+                                <Link :href="route('client-projects',  jstobase64(client.client_code))">
+                                {{ client.project_count }}
+                                </Link>
+                            </span>
                         </td>
                         <td class="px-6 py-4">
                             {{ client.remarks }}
@@ -137,6 +148,6 @@
                 </tbody>
             </table>
         </div>
-
+        <!-- <SidebarVue /> -->
     </BreezeAuthenticatedLayout>
 </template>

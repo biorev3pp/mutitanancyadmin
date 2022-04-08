@@ -28,6 +28,7 @@
     "dependencies": {
         "@headlessui/vue": "^1.5.0",
         "@vue-hero-icons/outline": "^1.7.2",
+        "nodejs-base64": "^2.0.0",
         "nprogress": "^0.2.0"
     }
 }

@@ -36,6 +36,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/domains', [DomainsController::class, 'index'])->name('domains');
     Route::get('/projects', [ProjectsController::class, 'index'])->name('projects');
+    Route::get('/client-projects/{client_code}', [ProjectsController::class, 'clientProject'])->name('client-projects');
     Route::get(
         '/users',
         function () {
