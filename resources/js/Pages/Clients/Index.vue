@@ -1,18 +1,19 @@
 <script>
     import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
-    import { Head, Link, usePage } from '@inertiajs/inertia-vue3';
+    import { usePage } from '@inertiajs/inertia-vue3';
     import { computed } from '@vue/runtime-core';
-    import SidebarVue from '@/Layouts/elements/Sidebar.vue';
+    import ClientSidebar from './ClientSidebar.vue';
     const { base64encode, base64decode } = require('nodejs-base64');
+    
     export default {
         components: {
             BreezeAuthenticatedLayout,
-            Head,
-            SidebarVue,
+            ClientSidebar,
         },
         data() {
             return {
-                search:''
+                search:'',
+                sidebar : true,
             }
         },
         computed: {
@@ -28,8 +29,6 @@
             }
         },
         setup() {
-            
-
             const clients = computed(() => usePage().props.value.clients);
             return {
                 clients
@@ -43,6 +42,9 @@
             },
             jstobase64(str){                
                 return base64encode(str)
+            },
+            changeSidebar() {
+                this.sidebar = !this.sidebar
             }
         }
     };
@@ -60,12 +62,12 @@
                 <div class="flex justify-between items-center">
                     <div class="relative mt-1 leading-none">
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+                            <BiorevIcon icon="search" className="w-5 h-5 text-gray-500 dark:text-gray-400" />
                         </div>
-                        <input type="text" v-model="search" id="search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items">
+                        <input type="text" v-model="search" id="search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for client">
                     </div>
-                   <button type="button" class="transition duration-500 inline-flex items-center  focus:outline-none text-white bg-zinc-600 hover:bg-zinc-800 focus:ring-4 focus:ring-zinc-300 font-medium rounded-sm text-sm px-3 py-2 dark:bg-zinc-600 dark:hover:bg-zinc-700 dark:focus:ring-zinc-900">
-                       <svg class="w-5 h-5 mr-1 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                   <button type="button" class="transition duration-500 inline-flex items-center  focus:outline-none text-white bg-zinc-600 hover:bg-zinc-800 focus:ring-4 focus:ring-zinc-300 font-medium rounded-sm text-sm px-3 py-2 dark:bg-zinc-600 dark:hover:bg-zinc-700 dark:focus:ring-zinc-900" @click="sidebar = !sidebar">
+                       <BiorevIcon icon="plus" className="w-5 h-5 mr-1 ml-1 text-white" />
                        <span>Add New Client</span>
                     </button>
 
@@ -127,9 +129,9 @@
                             {{ client.email }}
                         </td>
                         <td class="px-6 py-4">
-                            <span class="inline-block py-1 px-1.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-green-600 text-white rounded ml-2">
+                            <span class="inline-block py-1 px-2 leading-none text-center whitespace-nowrap align-baseline font-normal bg-indigo-600 text-white rounded-sm ml-2">
                                 <Link :href="route('client-projects',  jstobase64(client.client_code))">
-                                {{ client.project_count }}
+                                    {{ client.project_count }}
                                 </Link>
                             </span>
                         </td>
@@ -148,6 +150,6 @@
                 </tbody>
             </table>
         </div>
-        <!-- <SidebarVue /> -->
+        <ClientSidebar @change-sidebar-status="changeSidebar()" :hide-sidebar="sidebar" />
     </BreezeAuthenticatedLayout>
 </template>

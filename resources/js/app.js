@@ -3,6 +3,7 @@ require('./bootstrap');
 import { createApp, h } from 'vue';
 import { createInertiaApp, Link, Head} from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
+import BiorevIcon from "@/Components/BiorevIcon.vue";
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Biorev - Superadmin';
 
@@ -15,6 +16,7 @@ createInertiaApp({
             .mixin({ methods: { route } })
             .component("Link", Link)
             .component("Head", Head)
+            .component("BiorevIcon", BiorevIcon)
             .mount(el);
     },
 });

@@ -30,6 +30,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Dashboard')->with('menu', 'dashboard');
     })->name('dashboard');
 
+    Route::get('/server', function () {
+        return Inertia::render('Server/Index')->with('menu', 'server');
+    })->name('server');
+
     Route::get('/setup-client', [SetupController::class, 'index'])->name('setup-client');
 
     Route::get('/clients', [ClientsController::class, 'index'])->name('clients');
