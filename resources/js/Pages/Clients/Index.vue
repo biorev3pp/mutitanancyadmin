@@ -1,6 +1,10 @@
 <script>
     import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
     import ClientSidebar from './ClientSidebar.vue';
+    import { usePage } from '@inertiajs/inertia-vue3';
+    import { computed } from '@vue/runtime-core';
+    import { Inertia } from '@inertiajs/inertia';
+
     const { base64encode, base64decode } = require('nodejs-base64');
     
     export default {
@@ -11,9 +15,9 @@
         data() {
             return {
                 search:'',
+                rerenderPopup: false,
                 sidebar : true,
                 editmode: false,
-                clients:this.$page.props.clients,
                 active_client:{},
             }
         },
@@ -29,6 +33,12 @@
                 }
             }
         },
+        setup() {
+            const clients = computed(() => usePage().props.value.clients);
+            return {
+                clients,
+            }
+        },
         methods: {
             avtarText(val) {
                 let sp = val.split(' ');
@@ -41,6 +51,11 @@
             changeSidebar() {
                 this.sidebar = !this.sidebar
                 this.editmode = false
+                this.rerenderPopup = false
+            },
+            refreshData() {
+                Inertia.reload()
+                this.changeSidebar()
             }
         }
     };
@@ -62,7 +77,7 @@
                         </div>
                         <input type="text" v-model="search" id="search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for client">
                     </div>
-                   <button type="button" :class="$buttonClasses.addBtn" @click="sidebar = !sidebar">
+                   <button type="button" :class="$buttonClasses.addBtn" @click="rerenderPopup = true; sidebar = !sidebar">
                        <BiorevIcon icon="plus" className="w-5 h-5 mr-1 ml-1 text-white" />
                        <span>Add New Client</span>
                     </button>
@@ -140,7 +155,7 @@
                             
                         </td>
                         <td class="px-6 py-4 text-right">
-                            <button type="button" :class="$buttonClasses.tableEditBtn" @click="sidebar = !sidebar; editmode = true; active_client = client;">
+                            <button type="button" :class="$buttonClasses.tableEditBtn" @click="rerenderPopup = true; sidebar = !sidebar; editmode = true; active_client = client;">
                                 <BiorevIcon icon="pencil-alt" className="w-4 h-4 mr-1 ml-1 text-dark" />
                                 <span>Edit</span>
                             </button>
@@ -149,6 +164,6 @@
                 </tbody>
             </table>
         </div>
-        <ClientSidebar @change-sidebar-status="changeSidebar()" :hide-sidebar="sidebar" :edit-mode="editmode" :client-data="active_client" />
+        <ClientSidebar v-if="rerenderPopup" @refresh-data="refreshData()" @change-sidebar-status="changeSidebar()" :hide-sidebar="sidebar" :edit-mode="editmode" :client-data="active_client" />
     </BreezeAuthenticatedLayout>
 </template>

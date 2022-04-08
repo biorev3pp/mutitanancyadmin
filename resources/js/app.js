@@ -5,6 +5,9 @@ import { createInertiaApp, Link, Head} from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
 import BiorevIcon from "@/Components/BiorevIcon.vue";
 
+import VueToast from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+
 const { $buttonClasses, $formClasses } = require('@/Helpers/BiorevCss.js');
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Biorev - Superadmin';
@@ -15,6 +18,7 @@ createInertiaApp({
     setup({ el, app, props, plugin }) {
         const myApp = createApp({ render: () => h(app, props) })
             .use(plugin)
+            .use(VueToast, {position:'top-right'})
             .mixin({ methods: { route } })
             .component("Link", Link)
             .component("Head", Head)
@@ -22,7 +26,7 @@ createInertiaApp({
 
         myApp.config.globalProperties.$buttonClasses = $buttonClasses;
         myApp.config.globalProperties.$formClasses = $formClasses;
-
+       // myApp.config.globalProperties.$toast = toast;
         myApp.mount(el);
 
         return myApp;

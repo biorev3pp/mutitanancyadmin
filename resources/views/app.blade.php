@@ -16,6 +16,9 @@
 
         <style>
             #nprogress .spinner{display: block;position: fixed;z-index: 1031;top: 3.5rem;right: 0;width: calc(100vw - 17rem);text-align: center;height: calc(100vh - 3rem);background: rgba(255,255,255,0.5);margin: auto;padding: calc(40vh) 0 0 calc(50vw - 8rem);}
+            .v-toast__item{border-radius: 0.15em !important; min-height: 3em !important;}
+            .v-toast__item .v-toast__icon{width: 24px !important;min-width: 24px !important;height: 24px !important;margin-left: 0.81em !important;}
+            .v-toast__item .v-toast__text{padding: 1em !important; font-size: 14px !important;}
         </style>
         <!-- Scripts -->
         @routes

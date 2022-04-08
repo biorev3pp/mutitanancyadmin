@@ -9,7 +9,11 @@ use App\Models\Projects;
 class Clients extends Model
 {
     use HasFactory;
-    public function project(){
+
+    protected $guarded = [];
+
+    public function project()
+    {
         return $this->hasMany(Projects::class, 'client_id');
     }
 }

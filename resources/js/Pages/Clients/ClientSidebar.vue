@@ -10,17 +10,17 @@
             <form @submit.prevent="submitForm" @keydown="form.onKeydown($event)">
                 <div class="mb-4">
                     <label for="name" :class="$formClasses.label">Full Name</label>
-                    <input type="name" id="name" v-model="form.name" :class="$formClasses.textInput" autocomplete="Off" placeholder="Enter Name">
+                    <input type="name" id="name" v-model="form.name" :class="(form.errors.has('name'))?$formClasses.textInputError:$formClasses.textInput" autocomplete="Off" placeholder="Enter Name" @change="generateCode()">
                     <p :class="$formClasses.errorLabel" v-if="form.errors.has('name')" v-html="form.errors.get('name')" />
                 </div>
                 <div class="mb-4">
                     <label for="email" :class="$formClasses.label">Email</label>
-                    <input type="email" id="email" v-model="form.email" :class="$formClasses.textInput" placeholder="Enter Email">
+                    <input type="email" id="email" v-model="form.email" :class="(form.errors.has('email'))?$formClasses.textInputError:$formClasses.textInput" placeholder="Enter Email">
                     <p :class="$formClasses.errorLabel" v-if="form.errors.has('email')" v-html="form.errors.get('email')" />
                 </div>
                 <div class="mb-4">
                     <label for="client_code" :class="$formClasses.label">Client Code</label>
-                    <input type="text" id="client_code" v-model="form.client_code" :class="$formClasses.textInput" placeholder="It Will generate Automatically">
+                    <input type="text" id="client_code" v-model="form.client_code" :class="$formClasses.textInput" placeholder="It Will generate Automatically" :readonly="editMode">
                 </div>
                 <div class="mb-4">
                     <label for="remarks" :class="$formClasses.label">Remarks</label>
@@ -85,13 +85,38 @@ export default {
     },
     methods: {
         submitForm() {
-            this.form.post('/api/clients')
+            if(this.editMode) {
+                this.form.put('/api/clients/'+this.form.id)
                     .then((res) => {
-                        alert('hip hip hurrey')
+                        this.form.reset()
+                        this.$toast.success('Client has been updated successfully')
+                        this.$emit('refresh-data')
                     })
                     .catch((err) => {
                         console.log(err)
                     })
+            } else {
+                this.form.post('/api/clients')
+                    .then((res) => {
+                        this.form.reset()
+                        this.$toast.success('Client has been added successfully')
+                        this.$emit('refresh-data')
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            }
+        },
+        generateCode() {
+            let name = this.form.name;
+            name = name.split(' ')[0];
+            let ccode = name.charAt(0)+name.charAt(name.length/2)+name.charAt(name.length - 1);
+            this.form.client_code = ccode.toUpperCase();
+        }
+    },
+    mounted() {
+        if(this.editMode) {
+            this.form.fill(this.clientData)
         }
     }
 }

@@ -6,7 +6,8 @@ export const $buttonClasses = {
 
 export const $formClasses = {
     submitBtn: 'leading-none transition duration-500 inline-flex items-center focus:outline-none text-white bg-indigo-600 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-sm text-sm px-3 py-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-900',
-    textInput: 'transition duration-500 bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-sm focus:ring-gray-200 focus:border-gray-200 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500',
+    textInput: 'font-medium transition duration-500 bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-sm focus:ring-gray-200 focus:border-gray-200 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500',
+    textInputError: 'font-medium transition duration-500 bg-red-50 border border-red-200 text-red-900 text-sm rounded-sm focus:ring-red-200 focus:border-red-200 block w-full p-2 dark:bg-red-700 dark:border-red-600 dark:placeholder-red-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500',
     label: 'text-zinc-700 dark:text-gray-50 font-medium text-sm ml-1',
     errorLabel: 'text-xs text-red-700 dark:bg-red-200 dark:text-red-800 font-medium'
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Client;
+use App\Models\Clients;
 use Illuminate\Http\Request;
 
 class ClientsController extends Controller
@@ -31,7 +32,13 @@ class ClientsController extends Controller
             'email' => 'required|email|unique:clients',
             'client_code' => 'required|unique:clients' 
         ]);
-
+        Clients::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'client_code' => $request->client_code,
+            'remarks' => $request->remarks,
+            'status' => $request->status,
+        ]);
         return ['success'];
     }
 
@@ -55,7 +62,18 @@ class ClientsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $client = Clients::where('id', $id)->first();
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email|unique:clients,email,'.$request->id,
+        ]);
+        $client->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'remarks' => $request->remarks,
+            'status' => $request->status,
+        ]);
+        return ['success'];
     }
 
     /**
