@@ -69,32 +69,21 @@
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-y border-gray-200">
                     <tr>
-                        <th scope="col" class="p-4">
-                            <!-- <div class="flex items-center">
-                                <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                <label for="checkbox-all-search" class="sr-only">checkbox</label>
-                            </div> -->
-                            Sno
+                        <th scope="col" class="sticky px-6 py-3">
+                            SNo
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="sticky px-6 py-3">
                             Name
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="sticky px-6 py-3">
                             Doc-root
                         </th>
-                        <!-- <th scope="col" class="px-6 py-3  text-right">
-                            Actions
-                        </th> -->
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" v-for="(domain, index) in filteredDomains" :key="domain">
                         
-                        <td class="w-4 p-4">
-                            <!-- <div class="flex items-center">
-                                <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-                            </div> -->
+                        <td class="w-4 px-6 py-3">
                             {{ index + 1 }}
                         </td>
                         
@@ -104,17 +93,6 @@
                         <td class="px-6 py-4">
                             {{ domain.docroot }}
                         </td>
-                        <!-- <td class="px-6 py-4">
-                            {{ client.remarks }}
-                        </td> -->
-                        <!-- <td class="px-6 py-4">
-                            <span class="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-3 py-1 rounded dark:bg-green-200 border dark:text-green-900 border-green-300" v-if="client.status == 1">Active</span>
-                            <span class="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-3 py-1 rounded dark:bg-red-200 dark:text-red-900 border border-red-300" v-else>Deactive</span>
-                            
-                        </td>
-                        <td class="px-6 py-4 text-right">
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                        </td> -->
                     </tr>
                 </tbody>
             </table>

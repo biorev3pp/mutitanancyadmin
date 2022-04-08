@@ -15,4 +15,4 @@ yarn-error.log
 /.vscode
 /public/js
 /public/css
-/app/Http/Controllers/cookies
+/app/Http/Controllers/Cpanel/cookies
