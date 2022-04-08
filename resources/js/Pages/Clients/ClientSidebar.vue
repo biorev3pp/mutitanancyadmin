@@ -29,7 +29,9 @@ export default {
         }
     },
     props: {
-        hideSidebar:Boolean
+        hideSidebar:Boolean,
+        editMode:Boolean,
+        clientData:[Object,Array],
     },
     
     computed: {

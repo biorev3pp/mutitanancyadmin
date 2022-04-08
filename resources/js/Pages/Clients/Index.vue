@@ -14,6 +14,8 @@
             return {
                 search:'',
                 sidebar : true,
+                editmode: false,
+                active_client:{}
             }
         },
         computed: {
@@ -139,17 +141,20 @@
                             {{ client.remarks }}
                         </td>
                         <td class="px-6 py-4">
-                            <button class="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-3 py-1 rounded dark:bg-green-200 border dark:text-green-900 border-green-300" v-if="client.status == 1">Active</button>
-                            <button class="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-3 py-1 rounded dark:bg-red-200 dark:text-red-900 border border-red-300" v-else>Deactive</button>
+                            <span class="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-3 py-1 rounded dark:bg-green-200 border dark:text-green-900 border-green-300" v-if="client.status == 1">Active</span>
+                            <span class="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-3 py-1 rounded dark:bg-red-200 dark:text-red-900 border border-red-300" v-else>Deactive</span>
                             
                         </td>
                         <td class="px-6 py-4 text-right">
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                            <button type="button" class="transition duration-500 inline-flex items-center focus:outline-none text-dark bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-sm text-sm px-3 py-2 dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-900" @click="sidebar = !sidebar; editmode = true; active_client = client;">
+                                <BiorevIcon icon="pencil-alt" className="w-4 h-4 mr-1 ml-1 text-dark" />
+                                <span>Edit</span>
+                            </button>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <ClientSidebar @change-sidebar-status="changeSidebar()" :hide-sidebar="sidebar" />
+        <ClientSidebar @change-sidebar-status="changeSidebar()" :hide-sidebar="sidebar" :edit-mode="editmode" :client-data="active_client" />
     </BreezeAuthenticatedLayout>
 </template>
