@@ -73,7 +73,7 @@
 
                 </div>
             </div>
-            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <table class="w-full text-sm text-left text-gray-700 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-y border-gray-200">
                     <tr>
                         <th scope="col" class="p-4">
@@ -120,7 +120,7 @@
                                 <div class="flex-1 min-w-0">
                                     <h6 class=" text-gray-900"><Link :href="route('client-projects',  jstobase64(client.client_code))">{{ client.name }}</Link></h6>
                                     <p class="text-sm text-gray-500 truncate dark:text-gray-400 tracking-wide">
-                                        CLIENT CODE: <span class="text-indigo-700">{{ client.client_code }}</span> 
+                                        <small class="font-semibold"> CLIENT CODE: <span class="text-indigo-700">{{ client.client_code }}</span> </small>
                                     </p>
                                 </div>
                             </div>
@@ -135,7 +135,7 @@
                                 </Link>
                             </span>
                         </td>
-                        <td class="px-6 py-4">
+                        <td class="px-6 py-4 text-sm font-medium">
                             {{ client.remarks }}
                         </td>
                         <td class="px-6 py-4">
