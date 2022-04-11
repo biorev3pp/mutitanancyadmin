@@ -52,12 +52,16 @@ const icontext = computed(() => {
                 return '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="'+props.strokeWidth+'" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>';
             case 'menu-alt2':
                 return '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="'+props.strokeWidth+'" d="M4 6h16M4 12h16M4 18h7"></path>';
+            case 'menu':
+                return '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="'+props.strokeWidth+'" d="M4 6h16M4 12h16M4 18h16"></path>';
             case 'check':
                 return '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="'+props.strokeWidth+'" d="M5 13l4 4L19 7"></path>';
             case 'check-circle':
                 return '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="'+props.strokeWidth+'" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>';
             case 'pencil-alt':
                 return '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="'+props.strokeWidth+'" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>';
+            case 'chevron-down':
+                return '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="'+props.strokeWidth+'" d="M19 9l-7 7-7-7"></path>';
             default:
                 return '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="'+props.strokeWidth+'" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>';
         }

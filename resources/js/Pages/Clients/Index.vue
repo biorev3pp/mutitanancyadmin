@@ -68,7 +68,7 @@
         <template #header>
             Clients
         </template>
-        <div class="relative overflow-x-auto shadow-md bg-white sm:rounded-lg">
+        <div class="relative overflow-hidden shadow-md bg-white sm:rounded-lg">
             <div class="p-4">
                 <div class="flex justify-between items-center">
                     <div class="relative mt-1 leading-none">
@@ -84,86 +84,90 @@
 
                 </div>
             </div>
-            <table class="w-full text-sm text-left text-gray-700 dark:text-gray-400">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-y border-gray-200">
-                    <tr>
-                        <th scope="col" class="p-4">
-                            <div class="flex items-center">
-                                <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                <label for="checkbox-all-search" class="sr-only">checkbox</label>
-                            </div>
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Client Name
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Client Email
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Projects
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Remarks
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Status
-                        </th>
-                        <th scope="col" class="px-6 py-3  text-right">
-                            Actions
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" v-for="client in filteredClients" :key="client.id">
-                        <td class="w-4 p-4">
-                            <div class="flex items-center">
-                                <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-                            </div>
-                        </td>
-                        <th scope="row" class="px-6 py-4 font-medium dark:text-white whitespace-nowrap capitalize">
-                            <div class="flex items-center space-x-4">
-                                <div class="flex-shrink-0">
-                                    <span class="p-2 w-8 h-8 rounded-full bg-indigo-200 text-indigo-800">
-                                        {{ avtarText(client.name) }}
-                                    </span>
+            <div class="w-full overflow-auto" style="max-height: calc(100vh - 200px);">
+                <table class="w-full text-sm text-left text-gray-700 dark:text-gray-400 border-separate" style="border-spacing:0">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-y border-gray-200 border-separate">
+                        <tr>
+                            <th scope="col" class="top-0 bg-gray-100 border-y border-gray-200 sticky px-4 py-3">
+                                <div class="flex items-center">
+                                    <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                    <label for="checkbox-all-search" class="sr-only">checkbox</label>
                                 </div>
-                                <div class="flex-1 min-w-0">
-                                    <h6 class=" text-gray-900"><Link :href="route('client-projects',  jstobase64(client.client_code))">{{ client.name }}</Link></h6>
-                                    <p class="text-sm text-gray-500 truncate dark:text-gray-400 tracking-wide">
-                                        <small class="font-semibold"> CLIENT CODE: <span class="text-indigo-700">{{ client.client_code }}</span> </small>
-                                    </p>
+                            </th>
+                            <th scope="col" class="top-0 bg-gray-100 border-y border-gray-200 sticky px-4 py-3">
+                                Client Name
+                            </th>
+                           <th scope="col" class="top-0 bg-gray-100 border-y border-gray-200 sticky px-4 py-3">
+                                Client Email
+                            </th>
+                            <th scope="col" class="top-0 bg-gray-100 border-y border-gray-200 sticky px-4 py-3">
+                                Projects
+                            </th>
+                            <th scope="col" class="top-0 bg-gray-100 border-y border-gray-200 sticky px-4 py-3">
+                                Remarks
+                            </th>
+                            <th scope="col" class="top-0 bg-gray-100 border-y border-gray-200 sticky px-4 py-3">
+                                Status
+                            </th>
+                            <th scope="col" class="top-0 bg-gray-100 border-y border-gray-200 sticky px-4 py-3 text-right">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" v-for="client in filteredClients" :key="client.id">
+                            <td class="w-4 p-4">
+                                <div class="flex items-center">
+                                    <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                    <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
                                 </div>
-                            </div>
-                        </th>
-                        <td class="px-6 py-4 font-medium">
-                            {{ client.email }}
-                        </td>
-                        <td class="px-6 py-4">
-                            <span class="inline-block py-1 px-2 leading-none text-center whitespace-nowrap align-baseline font-normal bg-indigo-600 text-white rounded-sm ml-2">
-                                <Link :href="route('client-projects',  jstobase64(client.client_code))">
-                                    {{ client.project_count }}
-                                </Link>
-                            </span>
-                        </td>
-                        <td class="px-6 py-4 text-sm font-medium">
-                            {{ client.remarks }}
-                        </td>
-                        <td class="px-6 py-4">
-                            <span class="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-3 py-1 rounded dark:bg-green-200 border dark:text-green-900 border-green-300" v-if="client.status == 1">Active</span>
-                            <span class="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-3 py-1 rounded dark:bg-red-200 dark:text-red-900 border border-red-300" v-else>Deactive</span>
-                            
-                        </td>
-                        <td class="px-6 py-4 text-right">
-                            <button type="button" :class="$buttonClasses.tableEditBtn" @click="rerenderPopup = true; sidebar = !sidebar; editmode = true; active_client = client;">
-                                <BiorevIcon icon="pencil-alt" className="w-4 h-4 mr-1 ml-1 text-dark" />
-                                <span>Edit</span>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                            </td>
+                            <th scope="row" class="px-6 py-4 font-medium dark:text-white whitespace-nowrap capitalize">
+                                <div class="flex items-center space-x-4">
+                                    <div class="flex-shrink-0">
+                                        <span class="p-2 w-8 h-8 rounded-full bg-indigo-200 text-indigo-800">
+                                            {{ avtarText(client.name) }}
+                                        </span>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <h6 class=" text-gray-900"><Link :href="route('client-projects',  jstobase64(client.client_code))">{{ client.name }}</Link></h6>
+                                        <p class="text-sm text-gray-500 truncate dark:text-gray-400 tracking-wide">
+                                            <small class="font-semibold"> CLIENT CODE: <span class="text-indigo-700">{{ client.client_code }}</span> </small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </th>
+                            <td class="px-6 py-4 font-medium">
+                                {{ client.email }}
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="inline-block py-1 px-2 leading-none text-center whitespace-nowrap align-baseline font-normal bg-indigo-600 text-white rounded-sm ml-2">
+                                    <Link :href="route('client-projects',  jstobase64(client.client_code))">
+                                        {{ client.project_count }}
+                                    </Link>
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 text-sm font-medium">
+                                {{ client.remarks }}
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-3 py-1 rounded dark:bg-green-200 border dark:text-green-900 border-green-300" v-if="client.status == 1">Active</span>
+                                <span class="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-3 py-1 rounded dark:bg-red-200 dark:text-red-900 border border-red-300" v-else>Deactive</span>
+                                
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <button type="button" :class="$buttonClasses.tableEditBtn" @click="rerenderPopup = true; sidebar = !sidebar; editmode = true; active_client = client;">
+                                    <BiorevIcon icon="pencil-alt" className="w-4 h-4 mr-1 ml-1 text-dark" />
+                                    <span>Edit</span>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <ClientSidebar v-if="rerenderPopup" @refresh-data="refreshData()" @change-sidebar-status="changeSidebar()" :hide-sidebar="sidebar" :edit-mode="editmode" :client-data="active_client" />
+        <div v-if="rerenderPopup">
+            <ClientSidebar @refresh-data="refreshData()" @change-sidebar-status="changeSidebar()" :hide-sidebar="sidebar" :edit-mode="editmode" :client-data="active_client" />
+        </div>
     </BreezeAuthenticatedLayout>
 </template>

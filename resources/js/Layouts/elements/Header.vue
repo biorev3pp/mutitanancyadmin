@@ -1,16 +1,16 @@
 <script>
     import { ref } from 'vue';
     import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+    import ApplicationIcon from '@/Components/ApplicationIcon.vue';
     import BreezeDropdown from '@/Components/Dropdown.vue';
     import BreezeDropdownLink from '@/Components/DropdownLink.vue';
     import BreezeNavLink from '@/Components/NavLink.vue';
     import BreezeResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-    import { Link } from '@inertiajs/inertia-vue3';
     
     export default {
         components: {
             ApplicationLogo,
-            Link,
+            ApplicationIcon,
             BreezeDropdown,
             BreezeDropdownLink,
             BreezeNavLink,
@@ -18,7 +18,8 @@
             ref
         },
         props: {
-            showingNavigationDropdown:[Boolean]
+            showingNavigationDropdown:[Boolean],
+            condensedSideMenu:[Boolean]
         },
         setup () {
             
@@ -30,16 +31,19 @@
      <nav class="bg-white border-b border-gray-100">
         <div class="mx-auto pr-2">
             <div class="flex justify-between h-14">
-                <div class="flex md:bg-slate-700 md:w-64">
+                <div class="flex md:bg-slate-700 transition-all duration-500" :class="[(condensedSideMenu)?'w-16':'w-64']">
                     <!-- Logo -->
                     <div class="shrink-0 flex items-center p-0">
-                        <Link :href="route('dashboard')" class="px-2 py-2.5 md:border-b border-slate-600 w-64">
-                            <ApplicationLogo class="block" />
+                        <Link :href="route('dashboard')" class="px-2 py-2.5 md:border-b border-slate-600" :class="[(condensedSideMenu)?'w-16':'w-64']">
+                            <ApplicationIcon class="block" v-if="condensedSideMenu" />
+                            <ApplicationLogo class="block" v-else />
                         </Link>
                     </div>
                 </div>
-
-                <div class="hidden sm:flex sm:items-center sm:ml-6">
+               <div class="flex-1">
+                    <BiorevIcon @click="$emit('condensedMenu')" :icon="(condensedSideMenu)?'menu-alt2':'menu'" className="transition-all cursor-pointer duration-500 mt-2.5 ml-2 -mr-0.5 h-8 w-8 pointer" />
+                </div>
+                <div class="sm:ml-6 flex justify-between items-center">
                     <!-- Settings Dropdown -->
                     <div class="ml-3 relative">
                         <BreezeDropdown align="right" width="48">
@@ -47,7 +51,7 @@
                                 <span class="inline-flex rounded-md">
                                     <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                                         {{ $page.props.auth.user.name }}
-                                        <BiorevIcon icon="menu-alt2" className="ml-2 -mr-0.5 h-4 w-4" />
+                                        <BiorevIcon icon="chevron-down" className="ml-2 -mr-0.5 h-4 w-4" />
                                     </button>
                                 </span>
                             </template>

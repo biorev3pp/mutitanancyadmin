@@ -1,5 +1,5 @@
 <script setup>
-import BreezeApplicationLogo from '@/Components/ApplicationLogo.vue';
+import BreezeApplicationLogo from '@/Components/ApplicationLogo';
 </script>
 
 <template>

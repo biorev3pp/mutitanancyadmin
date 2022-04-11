@@ -9,7 +9,8 @@
         },
         data() {
             return {
-                showNavigation:false
+                showNavigation:false,
+                activeCondesnedMenu: false
             }
         },
         methods: {
@@ -18,6 +19,13 @@
                     this.showNavigation = false
                 } else {
                     this.showNavigation = true
+                }
+            },
+            changeSidemenu() {
+                if(this.activeCondesnedMenu == true) {
+                    this.activeCondesnedMenu = false
+                } else {
+                    this.activeCondesnedMenu = true
                 }
             }
         }
@@ -40,13 +48,13 @@ section.main-content{
 <template>
     <div>
         <div class="min-h-screen bg-gray-100">
-           <BiorevHeader @setMenu="changeNavStatus" :showingNavigationDropdown="showNavigation" />
+           <BiorevHeader @setMenu="changeNavStatus" :showingNavigationDropdown="showNavigation" @condensedMenu="changeSidemenu" :condensedSideMenu="activeCondesnedMenu" />
 
             <!-- Page Heading -->
-            <BiorevMenu :showNavigation="showNavigation" />
+            <BiorevMenu :showNavigation="showNavigation" :onCondesnedmenu="activeCondesnedMenu" />
             
             <!-- Page Content -->
-            <main class="p-3 md:ml-64 overflow-hidden">
+            <main class="p-3 overflow-hidden transition-all duration-500" :class="[(activeCondesnedMenu)?'ml-16':'ml-64']">
                 <header v-if="$slots.header">
                     <div class="pb-3">
                         <h2 class="font-normal text-xl text-gray-800 leading-tight">
