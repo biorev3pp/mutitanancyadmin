@@ -27,7 +27,9 @@ const props = defineProps({
 const icontext = computed(() => {
         switch (props.icon) {
             case 'ArrowNarrowLeft':
-                return '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="'+props.strokeWidth+'" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>';
+                return '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="'+props.strokeWidth+'" d="M7 16l-4-4m0 0l4-4m-4 4h18"></path>';
+            case 'ArrowNarrowRight':
+                return '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="'+props.strokeWidth+'" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>';
             case 'plus':
                 return '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="'+props.strokeWidth+'" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>';
             case 'search':
@@ -62,6 +64,14 @@ const icontext = computed(() => {
                 return '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="'+props.strokeWidth+'" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>';
             case 'chevron-down':
                 return '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="'+props.strokeWidth+'" d="M19 9l-7 7-7-7"></path>';
+            case 'moon':
+                return '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="'+props.strokeWidth+'" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
+            case 'sun':
+                return '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="'+props.strokeWidth+'" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
+            case 'cake':
+                return '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="'+props.strokeWidth+'" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z"></path>';
+            case 'badgeCheck':
+                return '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="'+props.strokeWidth+'" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>';
             default:
                 return '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="'+props.strokeWidth+'" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>';
         }

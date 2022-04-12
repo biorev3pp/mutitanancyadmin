@@ -10,22 +10,23 @@
         data() {
             return {
                 showNavigation:false,
-                activeCondesnedMenu: false
+                activeCondesnedMenu: false,
+                darkModeStatus: false
             }
         },
         methods: {
             changeNavStatus() {
-                if(this.showNavigation == true) {
-                    this.showNavigation = false
-                } else {
-                    this.showNavigation = true
-                }
+                this.showNavigation = !this.showNavigation
             },
             changeSidemenu() {
-                if(this.activeCondesnedMenu == true) {
-                    this.activeCondesnedMenu = false
+                this.activeCondesnedMenu = !this.activeCondesnedMenu
+            },
+            changeThemeMode() {
+                this.darkModeStatus =  !this.darkModeStatus
+                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.documentElement.classList.add('dark')
                 } else {
-                    this.activeCondesnedMenu = true
+                    document.documentElement.classList.remove('dark')
                 }
             }
         }
@@ -48,7 +49,7 @@ section.main-content{
 <template>
     <div>
         <div class="min-h-screen bg-gray-100">
-           <BiorevHeader @setMenu="changeNavStatus" :showingNavigationDropdown="showNavigation" @condensedMenu="changeSidemenu" :condensedSideMenu="activeCondesnedMenu" />
+           <BiorevHeader @setMenu="changeNavStatus" :showingNavigationDropdown="showNavigation" @condensedMenu="changeSidemenu" :condensedSideMenu="activeCondesnedMenu" :dark-mode-status="darkModeStatus" @changeThemeMode="changeThemeMode" />
 
             <!-- Page Heading -->
             <BiorevMenu :showNavigation="showNavigation" :onCondesnedmenu="activeCondesnedMenu" />

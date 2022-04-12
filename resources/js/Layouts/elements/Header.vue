@@ -19,7 +19,8 @@
         },
         props: {
             showingNavigationDropdown:[Boolean],
-            condensedSideMenu:[Boolean]
+            condensedSideMenu:[Boolean],
+            darkModeStatus:[Boolean]
         },
         setup () {
             
@@ -45,6 +46,7 @@
                 </div>
                 <div class="sm:ml-6 flex justify-between items-center">
                     <!-- Settings Dropdown -->
+                    <BiorevIcon @click="$emit('changeThemeMode')" :icon="(darkModeStatus)?'sun':'moon'" className="transition-all cursor-pointer duration-500 ml-2 h-6 w-6" />
                     <div class="ml-3 relative">
                         <BreezeDropdown align="right" width="48">
                             <template #trigger>
