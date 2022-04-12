@@ -35,7 +35,19 @@
             
         },
         setup() {
-           
+            // const projects = computed(() => usePage().props.value.projects);
+            // const client = computed(() => usePage().props.value.client)
+            // const domain_packages = computed(() => usePage().props.value.packages)
+            // return {
+            //     projects,
+            //     client,
+            //     domain_packages,
+            // }
+           const packages = computed(() => usePage().props.value.packages);
+           console.log(packages)
+           return {
+               packages
+           }
         },
         methods: {
             MoveStep() {
@@ -102,7 +114,7 @@
                                 <input type="name" id="name" v-model="form.name" :class="(form.errors.has('name'))?$formClasses.textInputError:$formClasses.textInput" autocomplete="Off" placeholder="Enter Name" @change="generateCode()">
                                 <p :class="$formClasses.errorLabel" v-if="form.errors.has('name')" v-html="form.errors.get('name')" />
                             </div>
-                            <div class="mb-4 mx-3 basis-1/3">
+                            <div class="mb-4 mx-3 basis-1/3">hu
                                 <label for="email" :class="$formClasses.label">Email</label>
                                 <input type="email" id="email" v-model="form.email" :class="(form.errors.has('email'))?$formClasses.textInputError:$formClasses.textInput" placeholder="Enter Email">
                                 <p :class="$formClasses.errorLabel" v-if="form.errors.has('email')" v-html="form.errors.get('email')" />

@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
-
+use App\Http\Controllers\DomainsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,3 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/update-client-status', [ClientController::class, 'save']);
 
 Route::apiResource('clients', App\Http\Controllers\API\ClientsController::class);
+Route::get('/check-domain/{domain}', [DomainsController::class, 'checkDomain']);
+Route::post('/validate-project-data', [DomainsController::class, 'validateProjectData']);
+Route::post('/save-project-data',  [DomainsController::class, 'saveProjectData']);
+Route::post('/update-project-data',  [DomainsController::class, 'updateProjectData']);
+

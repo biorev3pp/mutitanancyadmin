@@ -27,10 +27,12 @@
     },
     "dependencies": {
         "@headlessui/vue": "^1.5.0",
+        "@themesberg/tailwind-datepicker": "^1.1.0",
         "@vue-hero-icons/outline": "^1.7.2",
         "nodejs-base64": "^2.0.0",
         "nprogress": "^0.2.0",
         "vform": "^2.1.2",
-        "vue-toast-notification": "^3.0.0"
+        "vue-toast-notification": "^3.0.0",
+        "vue3-datepicker": "^0.3.2"
     }
 }
