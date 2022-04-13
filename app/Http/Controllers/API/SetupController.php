@@ -29,6 +29,7 @@ class SetupController extends Controller
     protected $dbUsername = '';
     protected $dbKey  = '';
     protected $cpanel = '';
+    protected $path = '';
     public function __construct()
     {
         $this->dbHost = env('CPANEL_HOST');
@@ -36,7 +37,8 @@ class SetupController extends Controller
         $this->dbKey = env('CPANEL_KEY');
         $this->cpanel = new CpanelController(env('CPANEL_USER'), env('CPANEL_KEY'), env('CPANEL_HOST'));
           //$this->data['packages'] = ['XDesign360', 'Biroev360'];
-          $this->data['menu'] = 'setup';
+        $this->data['menu'] = 'setup';
+        $this->path = 'C:\wamp64\www\mutitanancyadmin\.env';
     }
     public function index()
     {
@@ -53,7 +55,7 @@ class SetupController extends Controller
         ]);
         return ['status' => 'success'];
     }
-    public function setupClientSaveClientInfo(Request $request){
+    public function SaveClientInfo(Request $request){
         $result = Client::create([
                         "name" => $request->name,
                         "email" => $request->email,
@@ -66,7 +68,7 @@ class SetupController extends Controller
         }
         return ['status' => 'fail'];
     }
-    public function setupClientSaveProjectInfo(Request $request){
+    public function SaveProjectInfo(Request $request){
         $result = Projects::create([
             "client_id" => $request->input('client_id'),
             "module_name" => $request->input('project_name'),
@@ -82,7 +84,8 @@ class SetupController extends Controller
         }
         return ['status' => 'fail'];
     }  
-    public function setupClientCreateDatabase(Request $request){        
+    public function CreateDatabase(Request $request){      
+        ini_set('max_execution_time', 600);  
         $expSubdomain = explode('.', $request->subdomain);
         if($request->package_id == 'xdesign360.com'){
             $dbNameCreated = strtolower('xdesign_'.$expSubdomain[0]);
@@ -103,7 +106,7 @@ class SetupController extends Controller
             return ['status' => 'success', 'dbNameCreated' => $dbNameCreated, 'rootdomain' => $rootdomain];
         }
     }
-    public function setupClientSetPrivilegesOnDatabase(Request $request){
+    public function SetDbPrivileges(Request $request){
         $dbNameCreated = $request->dbNameCreated;
         $set_dbuser_privs = $this->cpanel->uapi(
             'Mysql', 'set_privileges_on_database',
@@ -119,7 +122,7 @@ class SetupController extends Controller
             return ['status' => 'success'];
         }
     }
-    public function setupClientAddingSubDomain(Request $request){
+    public function AddingSubDomain(Request $request){
         $expSubdomain = explode('.', $request->subdomain);
         $rootdomain = $request->rootdomain;
         $parameters = [
@@ -129,20 +132,13 @@ class SetupController extends Controller
             'disallowdot' => 1,
         ];
         $addSubDomain = $this->cpanel->execute('api2',"SubDomain", "addsubdomain" , $parameters);
-        // echo  '<pre>'; print_r($addSubDomain); echo '</pre>';
-        // echo  '<pre>'; print_r($addSubDomain->cpanelresult); echo '</pre>';
-        // echo  '<pre>'; print_r($addSubDomain->cpanelresult->data); echo '</pre>';
-        // echo  '<pre>'; print_r($addSubDomain->cpanelresult->data[0]); echo '</pre>';
-        // echo  '<pre>'; print_r($addSubDomain->cpanelresult->data[0]->result); echo '</pre>';
-        // dd($addSubDomain);
-
         if($addSubDomain->cpanelresult->data[0]->result == 1){
             return ['status' => 'success'];
         }else{
             return ['status' => 'fail'];
         }
     }
-    public function setupClientTranasferingFiles(Request $request){
+    public function TranasferingFiles(Request $request){
         $source = '/public_html/biorev-superadmin-project1/';
         $destination = '/public_html/'.$request->subdomain;
         $list_files = $this->cpanel->uapi(
@@ -177,7 +173,7 @@ class SetupController extends Controller
         }
         return ['status' => 'success', 'source' => $source, 'destination' => $destination];
     }
-    public function setupClientUpdatingEnv(Request $request){
+    public function UpdatingEnv(Request $request){
         // Retrieve content from file.
         $source = $request->source;
         $destination = $request->destination;
@@ -191,8 +187,7 @@ class SetupController extends Controller
                 'to_charset'                    => '_LOCALE_',
                 'update_html_document_encoding' => '1',
             )
-        );
-        
+        );        
         
         $get_file_content = get_object_vars(get_object_vars($get_file_content)['data'])['content'];
         $get_file_content = str_replace('DB_DATABASE=laravel', 'DB_DATABASE='.$dbNameCreated, $get_file_content);
@@ -216,16 +211,39 @@ class SetupController extends Controller
             return ['status' => 'success'];
         }
     }
-    public function setupClientUpdateDatabase(){
-        //create db on local
-        //$database = $request->dbNameCreated;
-        $database = 'testing_db';
+    public function UpdateLocalEnv(Request $request){ //Request $request        
+        //$database = 'testing_db';
+        $database = $request->dbNameCreated;
         DB::statement("CREATE DATABASE $database");
-        
-        // upload sql
-        $sql_dump = File::get(public_path('files/biorev360.sql'));
-        $db = DB::connection('mysql_new')->getPdo()->exec($sql_dump);
-        var_dump($db); die;
-        //$users = DB::connection('foo')->select(...);
+        // adding credentials to local env
+        $fp = fopen($this->path, 'a');
+        $c = "\nSETUP_DB_DATABASE=$database\nSETUP_DB_USERNAME=root\nSETUP_DB_PASSWORD=";
+        fwrite($fp, $c);  
+        return ['status' => 'success'];
     }
+    public function UpdateDatabase(){ //Request $request
+        //run sql
+        try {
+            $database = 'testing_db2';
+            // $database = $request->dbNameCreated;
+            config('database.connections.mysql_new.database', $database);
+            var_dump(config('database.connections.mysql_new.database')); die;
+            config('database.connections.mysql_new.username', 'root');
+            config('database.connections.mysql_new.password', '');
+            $sql_dump = File::get(public_path('files/biorev360.sql'));
+            DB::connection('mysql_new')->getPdo()->exec($sql_dump);
+            return ['status' => 'success'];
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+    public function RevertEnvUpdate(Request $request){        
+        //removing credentials form local env
+        $content = file_get_contents($this->path);
+        $contentD = strstr($content, 'SETUP_DB_DATABASE', false);
+        $contentA = str_replace($contentD, '', $content);
+        file_put_contents($this->path, $contentA);
+        return ['status' => 'success'];
+    }
+    
 }

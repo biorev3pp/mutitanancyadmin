@@ -66,77 +66,112 @@
             MoveStep() {
                 if(this.active_step == 1){
                     //api for client info validation
+                    // this.form.post('//api/validate-client-data').then((resClientValidate) => {
+
+                    // })
                     this.active_step = this.active_step + 1
                 } else if(this.active_step == 2){
                     //check for project validation
-                    this.form.post('/api/setup-client-validate-project-data').then((response) => {
+                    this.form.post('/api/validate-project-data').then((response) => {
                         if(response.data.status == 'success'){
-                            this.active_step = this.active_step + 1    
-                            //api to create client
-                            this.form.post('/api/setup-client-save-client-info').then((resClient) => {
-                                if(resClient.data.status == 'success'){
-                                    this.apiStatuses.push('Client profile created...')
-                                    //api to create project
-                                    this.form.client_id = resClient.data.client_id
-                                    this.form.post('/api/setup-client-save-project-info').then((resProject) => {
-                                        if(resProject.data.status = 'success'){
-                                            this.apiStatuses.push('Project created...')
-                                            //api to create database
-                                            this.form.post('/api/setup-client-create-database').then((resDatabase) => {
-                                                if(resDatabase.data.status == 'success'){
-                                                    this.apiStatuses.push('Database created...')
-                                                    this.form.dbNameCreated = resDatabase.data.dbNameCreated
-                                                    this.form.rootdomain = resDatabase.data.rootdomain
-                                                    
-                                                    //api to set privileges on database
-                                                    this.form.post('/api/setup-client-set-privileges-on-database').then((resPrivilege) => {
-                                                        if(resPrivilege.data.status == 'success'){
-                                                            this.apiStatuses.push('Set privileges on database...')
-                                                            //adding sub-domain
-                                                            this.form.post('/api/setup-client-adding-sub-domain').then((resAddSubDomain) => {
-                                                                if(resAddSubDomain.data.status == 'success'){
-                                                                    this.apiStatuses.push('Added sub domain...')
-                                                                    this.form.post('/api/setup-client-transfering-files').then((resTrnasferFiles) => {
-                                                                        if(resTrnasferFiles.data.status == 'success'){
-                                                                            this.apiStatuses.push('File transfer...')
-                                                                            this.form.source = resTrnasferFiles.data.source
-                                                                            this.form.destination = resTrnasferFiles.data.destination
-                                                                            this.form.post('/api/setup-client-updating-env').then((resUpdateENV) => {
-                                                                                if(resUpdateENV.data.status == 'success'){
-                                                                                    this.apiStatuses.push('All Done...')
-                                                                                }else{
-                                                                                    this.$toast.warning('Please try again !!')        
-                                                                                }
-                                                                            })
-                                                                        }else{
-                                                                            this.$toast.warning('Please try again !!')
-                                                                        }
-                                                                    })
-                                                                }else{
-                                                                    this.$toast.warning('Please try again !!')
-                                                                }
-                                                            })
-                                                        }else{
-                                                            this.$toast.warning('Please try again !!')
-                                                        }
-                                                    })
-                                                }else{
-                                                    this.$toast.warning('Please try again !!')        
-                                                }
-                                            })
-                                        }else{
-                                            this.$toast.warning('Please try again !!')
-                                        }
-                                    })
-                                    
-                                }else{
-                                    this.$toast.warning('Please try again !!')
-                                }
-                            })
+                            this.active_step = this.active_step + 1  
+                            this.setupClientSaveClientInfo()  
                         }
                     })
                 }
 
+            },
+            setupClientSaveClientInfo(){
+                //1 save clien
+                this.form.post('/api/save-client-info').then((resClient) => {
+                    if(resClient.data.status == 'success'){
+                        this.apiStatuses.push('Client profile created...')
+                        //api to create project
+                        this.form.client_id = resClient.data.client_id
+                        this.setupClientSaveProjectInfo()
+                    }else{ return false }
+                })
+            },
+            setupClientSaveProjectInfo(){
+                //2 save project
+                this.form.post('/api/save-project-info').then((resProject) => {
+                    if(resProject.data.status = 'success'){
+                        this.apiStatuses.push('Project created...')
+                        this.setupClientCreateDatabase()
+                    }else{ return false }
+                })
+            },
+            setupClientCreateDatabase(){
+                //3 create database
+                this.form.post('/api/create-database').then((resDatabase) => {
+                    if(resDatabase.data.status == 'success'){
+                        this.apiStatuses.push('Database created...')
+                        this.form.dbNameCreated = resDatabase.data.dbNameCreated
+                        this.form.rootdomain = resDatabase.data.rootdomain
+                        this.setupClientSetPrivilegesOnDatabase()
+                    }else{ return false }
+                })
+            },
+            // setupClientUpdateLocalEnv(){
+            //     //4 update local env
+            //     this.form.post('/api/update-local-env').then((resUpdateLocalENV) => {
+            //         if(resUpdateLocalENV.data.status == 'success'){
+            //             this.apiStatuses.push('Local env updated...')
+            //             this.setupClientSetPrivilegesOnDatabase()
+            //         }else{ return false }
+            //     })
+            // },
+            setupClientSetPrivilegesOnDatabase(){
+                //5 set user privileges
+                this.form.post('/api/set-db-privileges').then((resPrivilege) => {
+                    if(resPrivilege.data.status == 'success'){
+                        this.apiStatuses.push('Set privileges on database...')  
+                        this.setupClientAddingSubDomain()                                                          
+                    }else{ return false }
+                })
+            },
+            setupClientAddingSubDomain(){
+                //6 adding sub domain
+                this.form.post('/api/adding-sub-domain').then((resAddSubDomain) => {
+                    if(resAddSubDomain.data.status == 'success'){
+                        this.apiStatuses.push('Added sub domain...')    
+                        this.setupClientTransferingFiles()                                                                
+                    }else{ return false }
+                })
+            },
+            setupClientTransferingFiles(){
+                //7 file transfer
+                this.form.post('/api/transfering-files').then((resTrnasferFiles) => {
+                    if(resTrnasferFiles.data.status == 'success'){
+                        this.apiStatuses.push('File transfer...')
+                        this.form.source = resTrnasferFiles.data.source
+                        this.form.destination = resTrnasferFiles.data.destination
+                        this.setupClientUpdatingEnv()
+                    }else{ return false }
+                })
+            },
+            setupClientUpdatingEnv(){
+                //8 updat env server
+                this.form.post('/api/updating-env').then((resUpdateENV) => {
+                    if(resUpdateENV.data.status == 'success'){
+                        this.apiStatuses.push('Update server env...')
+                        this.setupClientUpdateDatabase()
+                    }else{ return false }
+                })
+            },
+            setupClientUpdateDatabase(){
+                //9 update database
+                this.form.post('/api/update-database').then((resUpdateDatabase) => {
+                    if(resUpdateDatabase.data.status == 'success'){
+                        this.setupClientRevertEnvUpdate()
+                    }else{ return false }
+                })
+            },
+            setupClientRevertEnvUpdate(){
+                //10 rever changes in local env
+                this.form.post('/api/revert-env-update').then((resRevertUpdateDatabase) => {
+                    //resRevertUpdateDatabase
+                })
             },
             BackStep() {
                 this.active_step = this.active_step - 1

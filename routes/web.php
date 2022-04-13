@@ -51,6 +51,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     )->name( 'users' );
     Route::get('/database', [DatabaseController::class, 'index'])->name( 'database' );
     // Route::post('/save-project-data', [DomainsController::class, 'saveProjectData']);
-    Route::get('/create-db', [App\Http\Controllers\API\SetupController::class, 'setupClientUpdateDatabase']);
+    Route::get('/create-db', [App\Http\Controllers\API\SetupController::class, 'UpdateDatabase']);
 });
 require __DIR__.'/auth.php';
