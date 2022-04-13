@@ -211,27 +211,17 @@ class SetupController extends Controller
             return ['status' => 'success'];
         }
     }
-    public function UpdateLocalEnv(Request $request){ //Request $request        
-        //$database = 'testing_db';
-        $database = $request->dbNameCreated;
-        DB::statement("CREATE DATABASE $database");
-        // adding credentials to local env
-        $fp = fopen($this->path, 'a');
-        $c = "\nSETUP_DB_DATABASE=$database\nSETUP_DB_USERNAME=root\nSETUP_DB_PASSWORD=";
-        fwrite($fp, $c);  
-        return ['status' => 'success'];
-    }
-    public function UpdateDatabase(){ //Request $request
+    
+    public function UpdateDatabase(Request $request){ //Request $request
         //run sql
         try {
-            $database = 'testing_db2';
-            // $database = $request->dbNameCreated;
-            config('database.connections.mysql_new.database', $database);
-            var_dump(config('database.connections.mysql_new.database')); die;
-            config('database.connections.mysql_new.username', 'root');
-            config('database.connections.mysql_new.password', '');
+            // $database = 'testing_db13';
+            $database = $request->dbNameCreated;
+            DB::statement("CREATE DATABASE $database");
+            config(['database.connections.mysql_new.database' => $database, 'database.connections.mysql_new.username' => 'root', 'database.connections.mysql_new.password' => '']);
             $sql_dump = File::get(public_path('files/biorev360.sql'));
             DB::connection('mysql_new')->getPdo()->exec($sql_dump);
+            config(['database.connections.mysql_new.database' => '', 'database.connections.mysql_new.username' => '', 'database.connections.mysql_new.password' => '']);
             return ['status' => 'success'];
         } catch (\Throwable $th) {
             throw $th;

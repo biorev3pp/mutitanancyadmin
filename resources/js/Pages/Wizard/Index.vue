@@ -146,33 +146,20 @@
                         this.apiStatuses.push('File transfer...')
                         this.form.source = resTrnasferFiles.data.source
                         this.form.destination = resTrnasferFiles.data.destination
-                        this.setupClientUpdatingEnv()
-                    }else{ return false }
-                })
-            },
-            setupClientUpdatingEnv(){
-                //8 updat env server
-                this.form.post('/api/updating-env').then((resUpdateENV) => {
-                    if(resUpdateENV.data.status == 'success'){
-                        this.apiStatuses.push('Update server env...')
                         this.setupClientUpdateDatabase()
                     }else{ return false }
                 })
-            },
+            },            
             setupClientUpdateDatabase(){
                 //9 update database
                 this.form.post('/api/update-database').then((resUpdateDatabase) => {
                     if(resUpdateDatabase.data.status == 'success'){
                         this.setupClientRevertEnvUpdate()
+                        this.apiStatuses.push('All done...')
                     }else{ return false }
                 })
             },
-            setupClientRevertEnvUpdate(){
-                //10 rever changes in local env
-                this.form.post('/api/revert-env-update').then((resRevertUpdateDatabase) => {
-                    //resRevertUpdateDatabase
-                })
-            },
+            
             BackStep() {
                 this.active_step = this.active_step - 1
             },

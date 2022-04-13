@@ -34,9 +34,7 @@ Route::post('/set-db-privileges', [SetupController::class, 'SetDbPrivileges']);
 Route::post('/adding-sub-domain', [SetupController::class, 'AddingSubDomain']);
 Route::post('/transfering-files', [SetupController::class, 'TranasferingFiles']);
 Route::post('/updating-env', [SetupController::class, 'UpdatingEnv']);
-Route::post('/update-local-env', [SetupController::class, 'UpdateLocalEnv']);
 Route::post('/update-database', [SetupController::class, 'UpdateDatabase']);
-Route::post('/revert-env-update', [SetupController::class, 'RevertEnvUpdate']);
 
 
 Route::post('/validate-client-data', [SetupController::class, 'ValidateClientData']);
