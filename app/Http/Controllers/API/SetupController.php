@@ -27,6 +27,7 @@ class SetupController extends Controller
     
     protected $dbHost = '';
     protected $dbUsername = '';
+    protected $dbPassowrd = '';
     protected $dbKey  = '';
     protected $cpanel = '';
     protected $path = '';
