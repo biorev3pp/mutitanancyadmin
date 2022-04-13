@@ -141,11 +141,11 @@
                                 {{ client.email }}
                             </td>
                             <td class="px-6 py-4">
-                                <span class="inline-block py-1 px-2 leading-none text-center whitespace-nowrap align-baseline font-normal bg-indigo-600 text-white rounded-sm ml-2">
-                                    <Link :href="route('client-projects',  jstobase64(client.client_code))">
+                                <Link :href="route('client-projects',  jstobase64(client.client_code))">
+                                    <span class="inline-block py-1 px-2 leading-none text-center whitespace-nowrap align-baseline font-normal bg-indigo-600 text-white rounded-sm ml-2 w-8">
                                         {{ client.project_count }}
-                                    </Link>
-                                </span>
+                                    </span>
+                                </Link>
                             </td>
                             <td class="px-6 py-4 text-sm font-medium">
                                 {{ client.remarks }}

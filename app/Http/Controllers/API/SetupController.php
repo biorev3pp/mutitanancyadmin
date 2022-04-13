@@ -16,6 +16,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 
 class SetupController extends Controller
@@ -74,7 +75,7 @@ class SetupController extends Controller
             "notes" => $request->input('notes'),
             "setup_date" => date("Y-m-d H:i:s", strtotime("now")),
             "status" => $request->input("status"),
-            "user_id" => \Auth::user()->id
+            "user_id" => Auth::user()->id
         ]);
         if($result->id){
             return ['status' => 'success'];
@@ -220,6 +221,11 @@ class SetupController extends Controller
         //$database = $request->dbNameCreated;
         $database = 'testing_db';
         DB::statement("CREATE DATABASE $database");
+        
+        // upload sql
+        $sql_dump = File::get(public_path('files/biorev360.sql'));
+        $db = DB::connection('mysql_new')->getPdo()->exec($sql_dump);
+        var_dump($db); die;
         //$users = DB::connection('foo')->select(...);
     }
 }
