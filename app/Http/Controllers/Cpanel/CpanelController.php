@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Cpanel;
 
 use Exception;
 
-class cPanelController
+class CpanelController
 {
     private $host;
     private $port;

@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DomainsController;
+use App\Http\Controllers\API\SetupController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -25,4 +26,12 @@ Route::get('/check-domain/{domain}', [DomainsController::class, 'checkDomain']);
 Route::post('/validate-project-data', [DomainsController::class, 'validateProjectData']);
 Route::post('/save-project-data',  [DomainsController::class, 'saveProjectData']);
 Route::post('/update-project-data',  [DomainsController::class, 'updateProjectData']);
+Route::post('/setup-client-validate-project-data', [SetupController::class, 'validateProjectData']);
+Route::post('/setup-client-save-client-info', [SetupController::class, 'setupClientSaveClientInfo']);
+Route::post('/setup-client-save-project-info', [SetupController::class, 'setupClientSaveProjectInfo']);
+Route::post('/setup-client-create-database', [SetupController::class, 'setupClientCreateDatabase']);
+Route::post('/setup-client-set-privileges-on-database', [SetupController::class, 'setupClientSetPrivilegesOnDatabase']);
+Route::post('/setup-client-adding-sub-domain', [SetupController::class, 'setupClientAddingSubDomain']);
+Route::post('/setup-client-transfering-files', [SetupController::class, 'setupClientTranasferingFiles']);
+Route::post('/setup-client-updating-env', [SetupController::class, 'setupClientUpdatingEnv']);
 

@@ -11,6 +11,8 @@
         },
         data() {
             return {
+                apiStatuses : [],
+                domainstatus : true,
                 active_step: 1,
                 activeClass:'flex z-10 justify-center items-center w-10 h-10 bg-blue-200 rounded-full ring-0 ring-white dark:bg-blue-900 sm:ring-8 dark:ring-gray-900 shrink-0',
                 completClass:'flex z-10 justify-center items-center w-10 h-10 bg-green-200 rounded-full ring-0 ring-white dark:bg-green-900 sm:ring-8 dark:ring-gray-900 shrink-0',
@@ -23,16 +25,28 @@
                 pendingClassTxt:'text-sm font-semibold text-gray-600 dark:text-white',
                 form: new Form({
                     id:'',
-                    name:'',
-                    email:'',
-                    client_code:'',
-                    remarks:'',
-                    status:1
+                    client_id : '',
+                    name:'anand',
+                    email:'avanandverma8@gmail.com',
+                    client_code:'anand',
+                    remarks:'client remarks',
+                    status:1,
+                    packageInof : '',
+                    subdomain : '',
+                    status : 1,
+                    notes : 'project remarks',
+                    project_name : 'project 001',
+                    dbNameCreated : '',
+                    rootdomain : '',
+                    source : '',
+                    destination : '',
                 })
             }
         },
         computed: {
-            
+            apiStatusList(){
+                return this.apiStatuses;
+            }
         },
         setup() {
             // const projects = computed(() => usePage().props.value.projects);
@@ -44,19 +58,121 @@
             //     domain_packages,
             // }
            const packages = computed(() => usePage().props.value.packages);
-           console.log(packages)
            return {
                packages
            }
         },
         methods: {
             MoveStep() {
-                this.active_step = this.active_step + 1
+                if(this.active_step == 1){
+                    //api for client info validation
+                    this.active_step = this.active_step + 1
+                } else if(this.active_step == 2){
+                    //check for project validation
+                    this.form.post('/api/setup-client-validate-project-data').then((response) => {
+                        if(response.data.status == 'success'){
+                            this.active_step = this.active_step + 1    
+                            //api to create client
+                            this.form.post('/api/setup-client-save-client-info').then((resClient) => {
+                                if(resClient.data.status == 'success'){
+                                    this.apiStatuses.push('Client profile created...')
+                                    //api to create project
+                                    this.form.client_id = resClient.data.client_id
+                                    this.form.post('/api/setup-client-save-project-info').then((resProject) => {
+                                        if(resProject.data.status = 'success'){
+                                            this.apiStatuses.push('Project created...')
+                                            //api to create database
+                                            this.form.post('/api/setup-client-create-database').then((resDatabase) => {
+                                                if(resDatabase.data.status == 'success'){
+                                                    this.apiStatuses.push('Database created...')
+                                                    this.form.dbNameCreated = resDatabase.data.dbNameCreated
+                                                    this.form.rootdomain = resDatabase.data.rootdomain
+                                                    
+                                                    //api to set privileges on database
+                                                    this.form.post('/api/setup-client-set-privileges-on-database').then((resPrivilege) => {
+                                                        if(resPrivilege.data.status == 'success'){
+                                                            this.apiStatuses.push('Set privileges on database...')
+                                                            //adding sub-domain
+                                                            this.form.post('/api/setup-client-adding-sub-domain').then((resAddSubDomain) => {
+                                                                if(resAddSubDomain.data.status == 'success'){
+                                                                    this.apiStatuses.push('Added sub domain...')
+                                                                    this.form.post('/api/setup-client-transfering-files').then((resTrnasferFiles) => {
+                                                                        if(resTrnasferFiles.data.status == 'success'){
+                                                                            this.apiStatuses.push('File transfer...')
+                                                                            this.form.source = resTrnasferFiles.data.source
+                                                                            this.form.destination = resTrnasferFiles.data.destination
+                                                                            this.form.post('/api/setup-client-updating-env').then((resUpdateENV) => {
+                                                                                if(resUpdateENV.data.status == 'success'){
+                                                                                    this.apiStatuses.push('All Done...')
+                                                                                }else{
+                                                                                    this.$toast.warning('Please try again !!')        
+                                                                                }
+                                                                            })
+                                                                        }else{
+                                                                            this.$toast.warning('Please try again !!')
+                                                                        }
+                                                                    })
+                                                                }else{
+                                                                    this.$toast.warning('Please try again !!')
+                                                                }
+                                                            })
+                                                        }else{
+                                                            this.$toast.warning('Please try again !!')
+                                                        }
+                                                    })
+                                                }else{
+                                                    this.$toast.warning('Please try again !!')        
+                                                }
+                                            })
+                                        }else{
+                                            this.$toast.warning('Please try again !!')
+                                        }
+                                    })
+                                    
+                                }else{
+                                    this.$toast.warning('Please try again !!')
+                                }
+                            })
+                        }
+                    })
+                }
+
             },
             BackStep() {
                 this.active_step = this.active_step - 1
             },
-            submitForm() {}
+            submitForm() {},
+            createSubdomain(){
+                var a = this.form.packageInof.split(',')
+                this.form.package = a[0]
+                this.form.package_id = a[1]
+                this.form.subdomain = this.form.client_code.toLowerCase() + '.' + a[1]
+                
+            },
+            submitProject(){
+                if(this.editMode) {
+                    this.form.post('/api/update-project-data').then((response) => {
+                        if(response.data.status == 'success'){
+                            this.form.reset()
+                            this.$toast.success('Project updated successfully')                    
+                            this.$emit('refreshSidebar')   
+                        }else{
+                            this.$toast.warning('Please try again')  
+                        }
+                    })
+                }else{
+                    this.form.post('/api/save-project-data').then((response) => {
+                        if(response.data.status == 'success'){
+                            this.form.reset()
+                            this.$toast.success('Project added successfully')                    
+                            this.$emit('refreshSidebar')   
+                        }else{
+                            this.$toast.warning('Please try again')  
+                        }
+                    })
+                }
+                
+            }
         }
     };
 </script>
@@ -114,7 +230,7 @@
                                 <input type="name" id="name" v-model="form.name" :class="(form.errors.has('name'))?$formClasses.textInputError:$formClasses.textInput" autocomplete="Off" placeholder="Enter Name" @change="generateCode()">
                                 <p :class="$formClasses.errorLabel" v-if="form.errors.has('name')" v-html="form.errors.get('name')" />
                             </div>
-                            <div class="mb-4 mx-3 basis-1/3">hu
+                            <div class="mb-4 mx-3 basis-1/3">
                                 <label for="email" :class="$formClasses.label">Email</label>
                                 <input type="email" id="email" v-model="form.email" :class="(form.errors.has('email'))?$formClasses.textInputError:$formClasses.textInput" placeholder="Enter Email">
                                 <p :class="$formClasses.errorLabel" v-if="form.errors.has('email')" v-html="form.errors.get('email')" />
@@ -132,29 +248,53 @@
                     <div class="project-add  mt-8 mx-24" v-else-if="active_step == 2">
                         <div class="flex flex-row">
                             <div class="mb-4 mr-3 basis-1/3">
-                                <label for="name" :class="$formClasses.label">Project Name</label>
-                                <input type="name" id="name" v-model="form.name" :class="(form.errors.has('name'))?$formClasses.textInputError:$formClasses.textInput" autocomplete="Off" placeholder="Enter Name" @change="generateCode()">
-                                <p :class="$formClasses.errorLabel" v-if="form.errors.has('name')" v-html="form.errors.get('name')" />
+                                <label for="product-name" :class="$formClasses.label">Project Name</label>
+                                <input type="text" id="name" v-model="form.project_name" :class="(form.errors.has('name'))?$formClasses.textInputError:$formClasses.textInput" autocomplete="Off" placeholder="Enter Name" @change="generateCode()">
+                                <p :class="$formClasses.errorLabel" v-if="form.errors.has('project_name')" v-html="form.errors.get('project_name')" />
                             </div>
                             <div class="mb-4 mx-3 basis-1/3">
-                                <label for="email" :class="$formClasses.label">Email</label>
-                                <input type="email" id="email" v-model="form.email" :class="(form.errors.has('email'))?$formClasses.textInputError:$formClasses.textInput" placeholder="Enter Email">
-                                <p :class="$formClasses.errorLabel" v-if="form.errors.has('email')" v-html="form.errors.get('email')" />
+                                <label for="dropdown-domain" :class="$formClasses.label">Packages</label>
+                                <select id="dropdown-domain" :class="(form.errors.has('package'))?$formClasses.textInputError:$formClasses.textInput" aria-label="select Package" @change="createSubdomain()" v-model="form.packageInof">
+                                    <option value="">select Package</option>
+                                    <option v-for="pack in packages" :key="pack.id" :value="pack.id+','+pack.domain_name">{{ pack.package_name }}</option>                                
+                                </select>
+                                <p :class="$formClasses.errorLabel" v-if="form.errors.has('package')" v-html="form.errors.get('package')" />
                             </div>
                             <div class="mb-4 ml-3 basis-1/3">
                                 <label for="client_code" :class="$formClasses.label">Client Code</label>
-                                <input type="text" id="client_code" v-model="form.client_code" :class="$formClasses.textInput" placeholder="It Will generate Automatically" :readonly="editMode">
+                                <input class="cursor-not-allowed" disabled readonly type="text" id="client_code" v-model="form.client_code" :class="$formClasses.textInput" placeholder="It Will generate Automatically">
+                            </div>
+                        </div>
+                        <div class="flex flex-row">
+                            <div class="mb-4  basis-1/3">
+                                <label for="subdomain-input" :class="$formClasses.label">Sub Domain</label>
+                                <div class="flex mr-3">
+                                    <span class="cursor-pointer inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 rounded-l-sm border border-r-0 border-gray-300 dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600" @click="submitProject">
+                                        <BiorevIcon v-show="domainstatus" icon="check" className="flex-shrink-0 w-5 h-5 text-white-500 transition duration-75 dark:text-white-400 group-hover:text-white dark:group-hover:text-white" />
+                                        <BiorevIcon v-show="!domainstatus" icon="x" className="flex-shrink-0 w-5 h-5 text-white-500 transition duration-75 dark:text-white-400 group-hover:text-white dark:group-hover:text-white" />
+                                    </span>
+                                    <input type="text" id="subdomain-input" :class="(form.errors.has('subdomain'))?$formClasses.textInputError:$formClasses.textInput" placeholder="Sub Domain" v-model="this.form.subdomain">
+                                </div>
+                                <p :class="$formClasses.errorLabel" v-if="form.errors.has('subdomain')" v-html="form.errors.get('subdomain')" />
+                            </div>
+                            <div class="mb-4 mx-3 basis-1/3">
+                                <label for="dropdown-status" :class="$formClasses.label">Status</label>
+                                <select id="dropdown-status" :class="(form.errors.has('status'))?$formClasses.textInputError:$formClasses.textInput" aria-label="select Package" v-model="form.status">
+                                    <option value="">select</option>
+                                    <option value="1" selected>Active</option>
+                                    <option value="0">In-Active</option>
+                                </select>
+                                <p :class="$formClasses.errorLabel" v-if="form.errors.has('status')" v-html="form.errors.get('status')" />
                             </div>
                         </div>
                         <div class="mb-4">
                             <label for="remarks" :class="$formClasses.label">Remarks</label>
-                            <textarea rows="4" id="remarks" v-model="form.remarks" :class="$formClasses.textInput" placeholder="Some remarks"></textarea>
+                            <textarea rows="4" id="remarks" v-model="form.notes" :class="$formClasses.textInput" placeholder="Some remarks"></textarea>
                         </div>
                     </div>
                     <div class="log  mt-8 mx-24" v-else-if="active_step == 3">
                         <div class="border h-96 overflow-y-auto p-2 font-mono bg-gray-200 border-gray-300 text-stone-500">
-                            <p>Client profile created...</p>
-                            <p>New project created...</p>
+                            <p v-for="(status,index) in apiStatusList" :key="'status-'+index">{{ status }}</p>
                         </div>
                     </div>
                     <div class="text-center" v-else>

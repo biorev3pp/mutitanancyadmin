@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Cpanel\cPanelController;
+use App\Http\Controllers\Cpanel\CpanelController;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
-use App\Models\Post;
 use App\Models\Subdomains;
 use App\Models\Packages;
 use App\Models\Projects;
@@ -21,10 +20,18 @@ class DomainsController extends Controller
 
     protected $domains = [];
 
+    public function __construct()
+    {
+        $dbHost = env('CPANEL_HOST');
+        $dbUsername = env('CPANEL_USER');
+        $dbKey = env('CPANEL_KEY');
+        $cpanel = new CpanelController(env('CPANEL_USER'), env('CPANEL_KEY'), env('CPANEL_HOST'));
+          //$this->data['packages'] = ['XDesign360', 'Biroev360'];
+          $this->data['menu'] = 'setup';
+    }
 
     public function index(Request $request)
     {
-        $cpanel = new cPanelController(env('cpanel_user'), env('cpanel_key'), env('cpanel_host'));
         $domains = $cpanel->execute('api2', 'SubDomain', 'listsubdomains', ['return_https_redirect_status'=>1]);
         
         foreach(get_object_vars(get_object_vars($domains)['cpanelresult'])['data'] as $domain){
@@ -53,23 +60,7 @@ class DomainsController extends Controller
         ]);
 
     }
-    public function validateProjectData(Request $request){
-        
-        $this->validate($request, [
-            [
-                'module_name' => 'required'
-            ],
-            [
-                'required' => ':attribute is required',
-            ],
-            [
-                'module_name' => 'Project name'
-            ]
-            // 'email' => 'required|email|unique:clients',
-            // 'client_code' => 'required|unique:clients' 
-        ]);
-        return ['success'];
-    }
+    
     public function checkDomain($domain = null){
         
         if(Subdomains::where('domain', '=', $domain)->count() == 0){
@@ -78,8 +69,9 @@ class DomainsController extends Controller
             return ['status' => 'fail'];
         }
     }
+
+    
     public function saveProjectData(Request $request){
-        $cpanel = new cPanelController(env('cpanel_user'), env('cpanel_key'), env('cpanel_host'));
         $path = 'ENV/.env';
         // dd(file_exists($path));
         $source = '/public_html/anand.biorev360.com/';
@@ -188,7 +180,7 @@ class DomainsController extends Controller
             $dbuser = 'xdesign_b360';
             $dbuserpassword = 'Xq8gg}BL1GqA';
             $expSubdomain = explode('.', $request->subdomain);
-            $cpanel = new cPanelController(env('cpanel_user'), env('cpanel_key'), env('cpanel_host'));
+            $cpanel = new CpanelController(env('cpanel_user'), env('cpanel_key'), env('cpanel_host'));
             if($request->package_id == 'xdesign360.com'){
                 $dbName = strtolower('xdesign_'.$expSubdomain[0]);
                 $rootdomain = 'xdesign360.com';
