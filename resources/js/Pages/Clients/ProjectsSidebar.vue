@@ -67,7 +67,7 @@
                 </div>
         </div>
 
-        <div class="border-t border-gray-200 h-14 p-3 absolute bottom-0 right-0 w-96 flex justify-between items-center">
+        <div v-if="form.projectDataSaved == 0" class="border-t border-gray-200 h-14 p-3 absolute bottom-0 right-0 w-96 flex justify-between items-center">
             <button :disabled="form.addNewProject" @click="submitProject" type="button"  :class="$formClasses.submitBtn">
                 <svg class="w-5 h-5 mx-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                 <span>{{ ptitle }}</span>
