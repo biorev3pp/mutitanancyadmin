@@ -54,7 +54,6 @@
                 this.rerenderPopup = false
             },
             refreshData() {
-                console.log()
                 Inertia.reload()
                 this.changeSidebar()
             }

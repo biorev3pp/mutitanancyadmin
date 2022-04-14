@@ -171,16 +171,25 @@ export default {
                     }
                 })
             }else{
-                this.form.post('/api/save-project-info').then((resProject) => {
-                    if(resProject.data.status = 'success'){
-                        this.apiStatuses.push('Project created...')
-                        this.apiStatuses.push('creating database...')
+                //validate project information
+                this.form.post('/api/validate-project-data').then((response) => {
+                    if(response.data.status == 'success'){
                         this.form.projectDataSaved = true
-                        this.loader = true
-                        this.setupClientCreateDatabase()
-                    }else{ return false }
+                        this.loader = true  
+                        this.setupClientSaveProjectInfo()
+                    }
                 })
             }            
+        },
+        setupClientSaveProjectInfo(){
+            //2 save project
+            this.form.post('/api/save-project-info').then((resProject) => {
+                if(resProject.data.status = 'success'){
+                    this.apiStatuses.push('Project created...')
+                    this.apiStatuses.push('creating database...')
+                    this.setupClientCreateDatabase()
+                }else{ return false }
+            })
         },
         setupClientCreateDatabase(){
             //3 create database
