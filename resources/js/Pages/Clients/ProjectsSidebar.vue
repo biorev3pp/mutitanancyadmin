@@ -186,7 +186,7 @@ export default {
             this.form.post('/api/save-project-info').then((resProject) => {
                 if(resProject.data.status = 'success'){
                     this.apiStatuses.push('Project created...')
-                    this.apiStatuses.push('creating database...')
+                    this.apiStatuses.push('creating database...')                    
                     this.setupClientCreateDatabase()
                 }else{ return false }
             })
@@ -258,6 +258,7 @@ export default {
                     this.apiStatuses.push('Please check SSL status in Domain section. It usually takes 12-24 hours to activate SSL.')
                     this.loader = false
                     this.cstatus = true
+                    this.$emit('refreshSidebar')
                 }else{ return false }
             })
         },
