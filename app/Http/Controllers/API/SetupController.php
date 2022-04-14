@@ -25,10 +25,10 @@ class SetupController extends Controller
 
     protected $data = [];
     protected $dbUsername = '';
+    protected $dbPassowrd = '';
     protected $dbKey  = '';
     protected $cpanel = '';
     protected $path = '';
-
     public function __construct()
     {
         $this->dbUsername = 'xdesign_b360';
@@ -237,7 +237,6 @@ class SetupController extends Controller
             throw $th;
         }
     }
-
     public function RevertEnvUpdate(Request $request){        
         //removing credentials form local env
         $content = file_get_contents($this->path);
