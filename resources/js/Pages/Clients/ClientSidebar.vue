@@ -52,8 +52,8 @@ export default {
         return {
             form: new Form({
                 id:'',
-                name:'',
-                email:'',
+                name:'john',
+                email:'john.doe@example.com',
                 client_code:'',
                 remarks:'',
                 status:1

@@ -31,7 +31,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Dashboard')->with('menu', 'dashboard');
     })->name('dashboard');
 
-    Route::get('/server', [ServerController::class, 'index'])->name('server');
+    Route::get('/server', function () {
+        return Inertia::render('Server/Index')->with('menu', 'server');
+    })->name('server');
 
     Route::get('/setup-client', [SetupController::class, 'index'])->name('setup-client');
 
@@ -50,6 +52,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     )->name( 'users' );
     Route::get('/database', [DatabaseController::class, 'index'])->name( 'database' );
     // Route::post('/save-project-data', [DomainsController::class, 'saveProjectData']);
-    Route::get('/create-db', [App\Http\Controllers\API\SetupController::class, 'UpdateDatabase']);
+    //Route::get('/create-db', [App\Http\Controllers\API\SetupController::class, 'UpdateDatabase']);
 });
 require __DIR__.'/auth.php';

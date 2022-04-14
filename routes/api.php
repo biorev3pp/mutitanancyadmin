@@ -23,10 +23,11 @@ Route::post('/update-client-status', [ClientController::class, 'save']);
 
 Route::apiResource('clients', App\Http\Controllers\API\ClientsController::class);
 Route::get('/check-domain/{domain}', [DomainsController::class, 'checkDomain']);
-Route::post('/validate-project-data', [DomainsController::class, 'validateProjectData']);
+// Route::post('/validate-project-data', [DomainsController::class, 'validateProjectData']);
 Route::post('/save-project-data',  [DomainsController::class, 'saveProjectData']);
 Route::post('/update-project-data',  [DomainsController::class, 'updateProjectData']);
 Route::post('/validate-project-data', [SetupController::class, 'validateProjectData']);
+
 Route::post('/save-client-info', [SetupController::class, 'SaveClientInfo']);
 Route::post('/save-project-info', [SetupController::class, 'SaveProjectInfo']);
 Route::post('/create-database', [SetupController::class, 'CreateDatabase']);
