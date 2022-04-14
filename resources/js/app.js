@@ -8,7 +8,7 @@ import BiorevIcon from "@/Components/BiorevIcon.vue";
 import VueToast from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
 
-const { $buttonClasses, $formClasses } = require('@/Helpers/BiorevCss.js');
+const { $buttonClasses, $formClasses, $cardClasses } = require('@/Helpers/BiorevCss.js');
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Biorev - Superadmin';
 
@@ -25,6 +25,7 @@ createInertiaApp({
             .component("BiorevIcon", BiorevIcon);
 
         myApp.config.globalProperties.$buttonClasses = $buttonClasses;
+        myApp.config.globalProperties.$cardClasses = $cardClasses;
         myApp.config.globalProperties.$formClasses = $formClasses;
        // myApp.config.globalProperties.$toast = toast;
         myApp.mount(el);

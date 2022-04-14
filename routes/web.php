@@ -8,6 +8,7 @@ use App\Http\Controllers\SetupController;
 use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\DatabaseController;
 use App\Http\Controllers\ProjectsController;
+use App\Http\Controllers\ServerController;
 use Inertia\Inertia;
 
 /*
@@ -30,9 +31,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Dashboard')->with('menu', 'dashboard');
     })->name('dashboard');
 
-    Route::get('/server', function () {
-        return Inertia::render('Server/Index')->with('menu', 'server');
-    })->name('server');
+    Route::get('/server', [ServerController::class, 'index'])->name('server');
 
     Route::get('/setup-client', [SetupController::class, 'index'])->name('setup-client');
 

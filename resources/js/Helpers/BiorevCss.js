@@ -11,3 +11,10 @@ export const $formClasses = {
     label: 'text-zinc-700 dark:text-gray-50 font-medium text-sm ml-1',
     errorLabel: 'text-xs text-red-700 dark:bg-red-200 dark:text-red-800 font-medium'
 }
+
+export const $cardClasses = {
+    card: 'm-3 p-4 bg-white rounded-lg border shadow-md dark:bg-gray-800 dark:border-gray-700',
+    cardTitle: 'mb-3 text-base font-medium text-gray-900 dark:text-white',
+    cardSideTool: 'hidden sm:inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5',
+    cardBody: ''
+}

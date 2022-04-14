@@ -27,7 +27,7 @@ class DomainsController extends Controller
         $dbKey = env('CPANEL_KEY');
         $cpanel = new CpanelController(env('CPANEL_USER'), env('CPANEL_KEY'), env('CPANEL_HOST'));
           //$this->data['packages'] = ['XDesign360', 'Biroev360'];
-          $this->data['menu'] = 'setup';
+        $this->data['menu'] = 'setup';
     }
 
     public function index(Request $request)

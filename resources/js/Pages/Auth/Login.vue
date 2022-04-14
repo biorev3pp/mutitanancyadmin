@@ -37,13 +37,13 @@ const submit = () => {
 
         <form @submit.prevent="submit">
             <div>
-                <BreezeLabel for="email" value="Email" />
-                <BreezeInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus autocomplete="username" />
+                <BreezeLabel for="email" value="Email" :class="$formClasses.label" />
+                <BreezeInput id="email" type="email" :class="$formClasses.textInput" v-model="form.email" required autofocus autocomplete="username" />
             </div>
 
             <div class="mt-4">
-                <BreezeLabel for="password" value="Password" />
-                <BreezeInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="current-password" />
+                <BreezeLabel for="password" value="Password" :class="$formClasses.label" />
+                <BreezeInput id="password" type="password" :class="$formClasses.textInput" v-model="form.password" required autocomplete="current-password" />
             </div>
 
             <div class="block mt-4">
@@ -58,8 +58,8 @@ const submit = () => {
                     Forgot your password?
                 </Link>
 
-                <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Log in
+                <BreezeButton class="ml-4" :class="[(form.processing)?'opacity-25':'', $formClasses.submitBtn]" :disabled="form.processing">
+                    Log in <biorev-icon icon="login" className="w-4 h-4 mx-1" />
                 </BreezeButton>
             </div>
         </form>
