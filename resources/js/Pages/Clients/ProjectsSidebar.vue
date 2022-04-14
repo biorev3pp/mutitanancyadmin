@@ -173,9 +173,7 @@ export default {
             }else{
                 //validate project information
                 this.form.post('/api/validate-project-data').then((response) => {
-                    if(response.data.status == 'success'){
-                        this.form.projectDataSaved = true
-                        this.loader = true  
+                    if(response.data.status == 'success'){                        
                         this.setupClientSaveProjectInfo()
                     }
                 })
@@ -186,7 +184,9 @@ export default {
             this.form.post('/api/save-project-info').then((resProject) => {
                 if(resProject.data.status = 'success'){
                     this.apiStatuses.push('Project created...')
-                    this.apiStatuses.push('creating database...')                    
+                    this.apiStatuses.push('creating database...')    
+                    this.form.projectDataSaved = 1
+                    this.loader = true
                     this.setupClientCreateDatabase()
                 }else{ return false }
             })
